@@ -1,0 +1,39 @@
+<html>
+	<body>
+		<script>
+
+			var video = document.createElement( 'video' );
+			video.autoplay = true;
+			video.addEventListener( 'loadedmetadata', function ( event ) {
+
+				var scale = 0.5;
+				var width = video.videoWidth * scale;
+				var height = video.videoHeight * scale;
+				var items_total = ( window.innerWidth * window.innerHeight ) / ( width * height );
+
+				for ( var i = 0; i < items_total - 1; i ++ ) {
+
+					var canvas = document.createElement( 'canvas' );
+					canvas.width = width;
+					canvas.height = height;
+
+					canvas.context = canvas.getContext( '2d' );
+					canvas.context.scale( scale, scale );
+
+					document.body.appendChild( canvas );
+
+				}
+
+				setInterval( function () {
+
+					var child = document.body.insertBefore( document.body.lastChild, document.body.children[ 1 ] ); // children[ 0 ] == <script>
+					child.context.drawImage( video, 0, 0 );
+
+				}, 1000 / 30 );
+
+			}, false );
+			video.src = 'video.ogv';
+
+		</script>
+	</body>
+</html>
